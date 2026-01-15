@@ -20,7 +20,7 @@ module "iam" {
 
 module "frontend_asg" {
   source = "./modules/frontend-asg"
-  target_group_arn = ""
+  target_group_arn = module.external_alb.target_group_arn
   iam_instance_profile = module.iam.ec2_instance_profile_name
   security_group_id = module.security_groups.frontend_sg_id
   instance_type = var.instance_type
@@ -37,4 +37,25 @@ module "backend_asg" {
   iam_instance_profile = module.iam.ec2_instance_profile_name
   security_group_id = module.security_groups.backend_sg_id
   key_name = var.key_name
+  target_group_arns = [module.internal_alb.target_group_arn]
+}
+
+module "external_alb" {
+  source = "./modules/alb"
+  vpc_id = module.vpc.vpc_id
+  subnet_ids = module.vpc.public_subnet_id
+  security_group_id = module.security_groups.external_alb_sg_id
+  target_group_port = 3000
+  internal = false
+  name_prefix = "public-"
+}
+
+module "internal_alb" {
+  source = "./modules/alb"
+  vpc_id = module.vpc.vpc_id
+  subnet_ids = module.vpc.frontend_subnet_id
+  security_group_id = module.security_groups.internal_alb_sg_id
+  target_group_port = 8080
+  internal = true
+  name_prefix = "internal"
 }

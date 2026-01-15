@@ -32,13 +32,13 @@ resource "aws_security_group" "internal_alb_sg" {
     from_port = 80
     to_port = 80
     protocol = "TCP"
-    security_groups = [ aws_security_group.frontend_app_sg ]
+    security_groups = [ aws_security_group.frontend_app_sg.id ]
   }
   ingress {
     from_port = 443
     to_port = 443
     protocol = "TCP"
-    security_groups = [ aws_security_group.frontend_app_sg ]
+    security_groups = [ aws_security_group.frontend_app_sg.id ]
   }
   egress {
     from_port = 0

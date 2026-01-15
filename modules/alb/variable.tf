@@ -15,3 +15,12 @@ variable "name_prefix" {
   type = string
   default = ""
 }
+
+variable "target_group_port" {
+  type = number
+  default = 3000
+}
+
+variable "vpc_id" {
+  type = string
+}
