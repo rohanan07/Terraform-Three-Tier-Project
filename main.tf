@@ -59,3 +59,13 @@ module "internal_alb" {
   internal = true
   name_prefix = "internal"
 }
+
+module "bastion_host" {
+  source = "./modules/bastion-host"
+  key_name = var.key_name
+  security_group_id = module.security_groups.bastion_sg_id
+  ami_id = var.ami_id
+  iam_instance_profile = module.iam.ec2_instance_profile_name
+  instance_type = var.instance_type
+  subnet_id = module.vpc.public_subnet_id[0]
+}
