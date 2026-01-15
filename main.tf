@@ -12,3 +12,29 @@ module "security_groups" {
   source = "./modules/security"
   vpc_id = module.vpc.vpc_id #passing the output vpc_id from vpc module
 }
+
+module "iam" {
+  source = "./modules/iam"
+  
+}
+
+module "frontend_asg" {
+  source = "./modules/frontend-asg"
+  target_group_arn = ""
+  iam_instance_profile = module.iam.ec2_instance_profile_name
+  security_group_id = module.security_groups.frontend_sg_id
+  instance_type = var.instance_type
+  subnet_ids = module.vpc.frontend_subnet_id
+  key_name = var.key_name
+  ami_id = var.ami_id
+}
+
+module "backend_asg" {
+  source = "./modules/backend-asg"
+  ami_id = var.ami_id
+  instance_type = var.instance_type
+  subnet_ids = module.vpc.backend_subnet_id
+  iam_instance_profile = module.iam.ec2_instance_profile_name
+  security_group_id = module.security_groups.backend_sg_id
+  key_name = var.key_name
+}

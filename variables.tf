@@ -27,3 +27,18 @@ variable "availability_zones" {
   type = list(string)
   default = [ "ap-south-1a", "ap-south-1b" ]
 }
+
+variable "ami_id" {
+  type = string
+  default = "ami-02b8269d5e85954ef"
+}
+
+variable "instance_type" {
+  type = string
+  default = "t3.micro"
+}
+
+variable "key_name" {
+  type = string
+  default = "login-key"
+}
