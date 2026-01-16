@@ -42,3 +42,13 @@ variable "key_name" {
   type = string
   default = "login-key"
 }
+
+variable "db_name" {
+  type = string
+  default = "three-tier-project-db"
+}
+
+variable "db_password" {
+  type = string
+  default = "#Wprhr20"
+}

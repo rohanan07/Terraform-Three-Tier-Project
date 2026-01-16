@@ -69,3 +69,11 @@ module "bastion_host" {
   instance_type = var.instance_type
   subnet_id = module.vpc.public_subnet_id[0]
 }
+
+module "db" {
+  source = "./modules/db"
+  subnet_ids = module.vpc.db_subnet_id
+  security_group_id = module.security_groups.db_sg_id
+  db_password = var.db_password
+  db_name = var.db_name
+}
